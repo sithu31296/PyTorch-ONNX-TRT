@@ -209,8 +209,6 @@ cmake --version
 
 ### ONNX_TensorRT
 
-https://github.com/onnx/onnx-tensorrt
-
 Parses ONNX models for execution with TensorRT.
 
 Install Pre-requisities:
@@ -266,15 +264,11 @@ source ~/.bashrc
 
 ### ONNX
 
-https://github.com/onnx/onnx
-
 ```bash
 pip3 install onnx
 ```
 
 ### ONNXRuntime
-
-https://github.com/microsoft/onnxruntime
 
 CPU:
 
@@ -290,7 +284,6 @@ pip3 install onnxruntime-gpu
 
 ### ONNX Simplifier
 
-https://github.com/daquexian/onnx-simplifier
 
 ```bash
 pip3 install onnx-simplifier
@@ -321,13 +314,6 @@ img = torch.zeros((1, 3, height, width)).to(device)
 
 Note that height and width is fixed. Dynamic input shape is still not available in PyTorch >> ONNX >> TensorRT.
 
-To trigger FP16 mode:
-
-```python3
-model = model.half()
-img = img.half()
-```
-
 Export to ONNX format:
 
 ```python
@@ -335,13 +321,13 @@ torch.onnx.export(
     model,                  # PyTorch Model
     img,                    # Input tensor
     f,                      # Output file (eg. 'output_model.onnx')
-    opset_version=11,       # Operator support version
+    opset_version=12,       # Operator support version
     input_names=['image']   # Input tensor name (arbitary)
     output_names=['output'] # Output tensor name (arbitary)
 )
 ```
 
-`opset_version` is very important. Some PyTorch operators are still not supported in ONNX even if `opset_version=12`. Default `opset_version` in PyTorch is 11. Please check official ONNX repo for supported PyTorch operators. If your model includes unsupported operators, convert to supported operators. For example, `torch.repeat_interleave()` is not supported, it can be converted into supported `torch.repeat() + torch.view()` to achieve the same function.
+`opset_version` is very important. Some PyTorch operators are still not supported in ONNX even if `opset_version=12`. Default `opset_version` in PyTorch is 12. Please check official ONNX repo for supported PyTorch operators. If your model includes unsupported operators, convert to supported operators. For example, `torch.repeat_interleave()` is not supported, it can be converted into supported `torch.repeat() + torch.view()` to achieve the same function.
 
 ### ONNX Simplifier
 
@@ -478,4 +464,20 @@ with engine.create_execution_context() as context:
     return h_output
 ```
 
-For more usage including running ONNX model directly with TensorRT Python API, please see YOLOv5 example.
+There is also an option to run ONNX model directly with TensorRT Python API, but it is not recommended.
+
+## Examples
+
+Example conversion of YOLOv5 model into TRT model can be seen in [conversion](conversion).
+
+You can see the example converted models in [examples](examples).
+
+## References
+
+* [YOLOv5](https://github.com/ultralytics/yolov5)
+* [TensorRT Documentation](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html)
+* [ONNX](https://github.com/onnx/onnx)
+* [ONNX-Runtime](https://github.com/microsoft/onnxruntime)
+* [ONNX-TensorRT](https://github.com/onnx/onnx-tensorrt)
+* [ONNX Simplifier](https://github.com/daquexian/onnx-simplifier)
+* [trtexec](https://github.com/NVIDIA/TensorRT/tree/master/samples/opensource/trtexec)
