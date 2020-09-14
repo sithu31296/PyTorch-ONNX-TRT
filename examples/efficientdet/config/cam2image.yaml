@@ -1,0 +1,11 @@
+cam2image:
+  ros__parameters:
+    burger_mode: false
+    depth: 10
+    frequency: 30.0
+    height: 480
+    history: keep_all
+    reliability: reliable
+    show_camera: false
+    use_sim_time: false
+    width: 640
